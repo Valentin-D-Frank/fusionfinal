@@ -1,0 +1,76 @@
+doctype html
+html(lang='es')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Soe
+    link(rel='icon' type='image/x-icon' href='/static/img/favicon.ico')
+    link(rel='stylesheet' href='static/css/register.css')
+    script(src='https://www.google.com/recaptcha/api.js?hl=es')
+  body
+    #cabezera
+      header
+        nav#navbar
+          #navegation.container
+            a(href='/')
+              img(src='../static/img/logo_empresa_opt.png' alt='Logotipo')
+            span#navbar-toggle
+              i.fas.fa-bars
+    #texto-arriba
+      h5 Unirse a SOE
+      h3 Crea tu Cuenta
+    #app
+      section
+        form(action='/login' method='GET')
+          
+          label(for='') Nombre
+          br
+          input(type='text' v-model='user.name' autofocus='' required='')
+          br
+          label(for='') Email
+          br
+          input(type='email' v-model='user.email' required='')
+          br
+          label(for='') Contraseña
+          br
+          input(type='password' v-model='user.password' required='')
+          br
+          label(for='') Confirmar Contraseña
+          br
+          input(type='password' v-model= 'user.repassword' required='')
+          br
+          #cap
+            .g-recaptcha(data-sitekey='6LdKywEaAAAAAG3QjlZmaopos4sfWRyhZecp9mlr')
+          input#btn(type='submit' value='Crear Cuenta' @click = 'signup')
+    .new
+      | Ya tienes Cuenta? 
+      a(href='/login') Inicia sesión aquí
+    hr
+footer
+  span &copy; Todos los derechos reservados
+        script(src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
+        script(src='https://unpkg.com/vue-router/dist/vue-router.js')
+        script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+        script.
+          var app = new Vue({
+            el: '#app', 
+            data: {
+              user: {
+                name: '',
+                email: '',
+                password: '',
+                repassword: ''
+              }
+            },
+            methods: {
+              signup() {
+                axios.post('/user', {
+                  command: 'REGISTER_USER',
+                  transaction: this.user
+                })
+                  .then(resp => {
+                    const response = resp.data
+                  })
+              }
+            }
+          })
